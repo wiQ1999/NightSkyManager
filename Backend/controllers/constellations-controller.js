@@ -30,6 +30,24 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', validateId, async (req, res) => {
     try {
+        const constellation = await selectConstellationById(req.params.id);
+        // TODO: dodać pobieranie z komend Stars wg. id konstelacji
+        //
+        // SELECT [Stars].*, [Constellations].*
+        // FROM [Stars]
+        // INNER JOIN [Stars_Constellations] ug ON ug.user_id = u.id
+        // INNER JOIN [Constellations] g ON g.id = ug.group_id
+        res.send();
+    } catch (error) {
+        if (error instanceof NotFoundInDbError)
+            res.status(404).send(error.field);
+        else
+            res.status(500).send(error.field);
+    }
+});
+
+router.get('/:id/stars', validateId, async (req, res) => {
+    try {
         res.send(await selectConstellationById(req.params.id));
     } catch (error) {
         if (error instanceof NotFoundInDbError)
