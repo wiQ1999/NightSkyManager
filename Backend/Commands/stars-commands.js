@@ -1,5 +1,5 @@
 const MSSQLDatabase = require('./MSSQLDatabase');
-const NotFoundInDbError = require('../Errors/NotFoundInDbError');
+const NotFoundInDbError = require('../errors/NotFoundInDbError');
 
 async function selectAllStars() {
     const db = new MSSQLDatabase();
