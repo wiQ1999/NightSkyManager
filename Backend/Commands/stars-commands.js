@@ -11,6 +11,17 @@ async function selectAllStars() {
     return result;
 }
 
+async function selectStarsByConstellationId(id) {
+    const db = new MSSQLDatabase();
+    await db.connect();
+
+    const result = await db.query(`SELECT * FROM [Stars] WHERE [Id]=${id};`);
+    if (!result || result.length == 0) throw new NotFoundInDbError('Stars', id);
+
+    db.close();
+    return result;
+}
+
 async function selectById(id) {
     const db = new MSSQLDatabase();
     await db.connect();
