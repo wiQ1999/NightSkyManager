@@ -14,10 +14,9 @@ async function selectAllStars() {
 async function selectStarsByConstellationId(id) {
     const db = new MSSQLDatabase();
     await db.connect();
-
-    const result = await db.query(`SELECT * FROM [Stars] WHERE [Id]=${id};`);
-    if (!result || result.length == 0) throw new NotFoundInDbError('Stars', id);
-
+    console.log(id);
+    const result = await db.query(`SELECT [Stars].* FROM [Stars] INNER JOIN [Stars_Constellations] AS [SC] ON [SC].[StarId]=[Stars].[Id] WHERE [SC].[ConstellationId]=${id};`);
+    console.log(result);
     db.close();
     return result;
 }
@@ -69,6 +68,7 @@ async function deleteStar(id) {
 
 module.exports = {
     selectAllStars,
+    selectStarsByConstellationId,
     selectById,
     insertStar,
     updateStar,
