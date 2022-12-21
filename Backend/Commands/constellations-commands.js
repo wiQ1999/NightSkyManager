@@ -1,4 +1,4 @@
-const MSSQLDatabase = require('./MSSQLDatabase');
+const MSSQLDatabase = require('../database/MSSQLDatabase');
 const NotFoundInDbError = require('../errors/NotFoundInDbError')
 
 const db = new MSSQLDatabase();
