@@ -15,7 +15,7 @@ async function selectConstellationById(id) {
     await db.connect();
     const result = await db.query(constellationQueries.selectConstellationById(id));
     if (!result || result.length == 0)
-        throw new NotFoundInDbError('Constellations', id);
+        throw new NotFoundInDbError('constellations', id);
     db.close();
     return result;
 }
@@ -24,7 +24,7 @@ async function selectStarsByConstellationId(id) {
     await db.connect();
     const constellation = await db.query(constellationQueries.selectConstellationById(id));
     if (!constellation || constellation.length == 0)
-        throw new NotFoundInDbError('Constellations', id);
+        throw new NotFoundInDbError('constellations', id);
     const result = await db.query(constellationQueries.selectStarsByConstellationId(id));
     db.close();
     return result;
@@ -40,7 +40,7 @@ async function updateConstellationById(id, dto) {
     await db.connect();
     const result = await db.query(constellationQueries.selectConstellationById(id));
     if (!result || result.length == 0)
-        throw new NotFoundInDbError('Constellations', id);
+        throw new NotFoundInDbError('constellations', id);
     await db.query(constellationQueries.updateConstellationById(id, dto));
     db.close();
 }
@@ -49,7 +49,7 @@ async function deleteConstellationById(id) {
     await db.connect();
     const result = await db.query(constellationQueries.selectConstellationById(id));
     if (!result || result.length == 0)
-        throw new NotFoundInDbError('Constellations', id);
+        throw new NotFoundInDbError('constellations', id);
     await db.query(constellationQueries.deleteConstellationById(id));
     db.close();
 }
