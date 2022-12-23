@@ -1,12 +1,12 @@
 const express = require('express');
-const constellationsRouter = require('./controllers/constellations-controller');
+const constellationsRouter = require('./controllers/constellationsController');
 const {
     selectAllStars,
     selectById,
     insertStar,
     updateStar,
     deleteStar
-} = require('./commands/stars-commands');
+} = require('./commands/starsCommands');
 
 const app = express();
 const port = 3000;

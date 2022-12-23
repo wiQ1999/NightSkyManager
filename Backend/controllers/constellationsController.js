@@ -1,17 +1,17 @@
 const NotFoundInDbError = require('../errors/NotFoundInDbError');
 const express = require('express');
-const validateId = require('../validators/params-id-validator');
-const validateBaseBody = require('../validators/base-body-validator');
+const validateId = require('../validators/paramsIdValidator');
+const validateBaseBody = require('../validators/baseBodyValidator');
 const {
     selectAllConstellations,
     selectConstellationById,
     insertConstellation,
     updateConstellation,
     deleteConstellation
-} = require('../commands/constellations-commands');
+} = require('../commands/constellationsCommands');
 const {
     selectStarsByConstellationId
-} = require('../commands/stars-commands');
+} = require('../commands/starsCommands');
 
 const router = express.Router();
 
