@@ -13,7 +13,7 @@ function selectStarById(id) {
 function selectConstellationsByStarId(id) {
     return `SELECT [constellations].* FROM [constellations] 
         INNER JOIN [constellations_stars] AS [sc] ON [sc].[constellationId]=[constellations].[id] 
-        WHERE [sc].[starsId]=${id};`
+        WHERE [sc].[starId]=${id};`
 }
 
 function insertStar(dto) {

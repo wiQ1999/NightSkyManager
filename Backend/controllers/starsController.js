@@ -33,7 +33,7 @@ router.get('/:id', validateId, async (req, res) => {
     }
 });
 
-router.get('/:id/stars', validateId, async (req, res) => {
+router.get('/:id/constellations', validateId, async (req, res) => {
     try {
         res.send(await starsService.selectConstellationsByStarId(req.params.id));
     } catch (error) {
