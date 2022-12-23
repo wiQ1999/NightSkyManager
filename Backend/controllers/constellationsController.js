@@ -1,23 +1,14 @@
 const NotFoundInDbError = require('../errors/NotFoundInDbError');
+const constellationsService = require('../services/constellationsService');
 const express = require('express');
 const validateId = require('../validators/paramsIdValidator');
 const validateBaseBody = require('../validators/baseBodyValidator');
-const {
-    selectAllConstellations,
-    selectConstellationById,
-    insertConstellation,
-    updateConstellation,
-    deleteConstellation
-} = require('../commands/constellationsCommands');
-const {
-    selectStarsByConstellationId
-} = require('../commands/starsCommands');
 
 const router = express.Router();
 
 router.post('/', validateBaseBody, async (req, res) => {
     try {
-        res.send(await insertConstellation(req.body));
+        res.send(await constellationsService.insertConstellation(req.body));
     } catch (error) {
         res.status(500).send(error.field);
     }
@@ -25,7 +16,7 @@ router.post('/', validateBaseBody, async (req, res) => {
 
 router.get('/', async (req, res) => {
     try {
-        res.send(await selectAllConstellations());
+        res.send(await constellationsService.selectAllConstellations());
     } catch (error) {
         res.status(500).send(error.field);
     }
@@ -33,7 +24,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', validateId, async (req, res) => {
     try {
-        res.send(await selectConstellationById(req.params.id));
+        res.send(await constellationsService.selectConstellationById(req.params.id));
     } catch (error) {
         if (error instanceof NotFoundInDbError)
             res.status(404).send(error.field);
@@ -44,8 +35,7 @@ router.get('/:id', validateId, async (req, res) => {
 
 router.get('/:id/stars', validateId, async (req, res) => {
     try {
-        const constellation = await selectConstellationById(req.params.id);
-        res.send(await selectStarsByConstellationId(constellation.id));
+        res.send(await constellationsService.selectStarsByConstellationId(req.params.id));
     } catch (error) {
         if (error instanceof NotFoundInDbError)
             res.status(404).send(error.field);
@@ -56,7 +46,7 @@ router.get('/:id/stars', validateId, async (req, res) => {
 
 router.put('/:id', validateId, validateBaseBody, async (req, res) => {
     try {
-        res.send(await updateConstellation(req.params.id, req.body));
+        res.send(await constellationsService.updateConstellationById(req.params.id, req.body));
     } catch (error) {
         if (error instanceof NotFoundInDbError)
             res.status(404).send(error.field);
@@ -67,7 +57,7 @@ router.put('/:id', validateId, validateBaseBody, async (req, res) => {
 
 router.delete('/:id', validateId, async (req, res) => {
     try {
-        res.send(await deleteConstellation(req.params.id));
+        res.send(await constellationsService.deleteConstellationById(req.params.id));
     } catch (error) {
         if (error instanceof NotFoundInDbError)
             res.status(404).send(error.field);
