@@ -24,7 +24,7 @@ function updateStarById(id, dto) {
     return baseQueries.updateById(table, id, dto);
 }
 
-function deleteStarnById(id) {
+function deleteStarById(id) {
     return baseQueries.deleteById(table, id);
 }
 
@@ -34,5 +34,5 @@ module.exports = {
     selectConstellationsByStarId,
     insertStar,
     updateStarById,
-    deleteStarnById
+    deleteStarById
 };
