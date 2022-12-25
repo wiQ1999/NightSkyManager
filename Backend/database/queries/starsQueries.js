@@ -10,12 +10,6 @@ function selectStarById(id) {
     return baseQueries.selectById(table, id);
 }
 
-function selectConstellationsByStarId(id) {
-    return `SELECT [constellations].* FROM [constellations] 
-        INNER JOIN [constellations_stars] AS [sc] ON [sc].[constellationId]=[constellations].[id] 
-        WHERE [sc].[starId]=${id};`
-}
-
 function insertStar(dto) {
     return baseQueries.insert(table, dto);
 }
@@ -31,8 +25,7 @@ function deleteStarById(id) {
 module.exports = {
     selectAllStars,
     selectStarById,
-    selectConstellationsByStarId,
     insertStar,
     updateStarById,
-    deleteStarById
+    deleteStarById,
 };
