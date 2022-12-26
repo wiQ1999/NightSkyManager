@@ -1,6 +1,6 @@
 const table = 'constellations_stars';
 
-function seletConstellationsByStarId(id) {
+function selectConstellationsByStarId(id) {
     return `SELECT [constellations].* FROM [constellations] 
         INNER JOIN [${table}] AS [sc] ON [sc].[constellationId]=[constellations].[id] 
         WHERE [sc].[starId]=${id};`
@@ -23,7 +23,8 @@ function deleteRelation(constellationId, starId) {
 }
 
 module.exports = {
-    seletConstellationsByStarId,
+    table,
+    selectConstellationsByStarId,
     selectStarsByConstellationId,
     insertRelation,
     deleteRelation

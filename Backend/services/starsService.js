@@ -1,39 +1,44 @@
 const MSSQLDatabase = require('../database/MSSQLDatabase');
 const NotFoundInDbError = require('../errors/NotFoundInDbError')
+const QuerieError = require('../errors/QuerieError')
+const baseQueries = require('../database/queries/baseQueires');
 const starsQueries = require('../database/queries/starsQueries');
+const relationsQueries = require('../database/queries/constellations_starsQueries');
 
 const db = new MSSQLDatabase();
 
-async function selectAllStars() {
+async function createStar(dto) {
+    await db.connect();
+    try {
+        await db.query(starsQueries.insertStar(dto));
+        const response = await db.query(baseQueries.selectLastId(starsQueries.table));
+        if (!response || response.length == 0)
+            throw new QuerieError(starsQueries.table);
+        for (let i = 0; i < dto.related.length; i++) {
+            const constellationId = dto.related[i];
+            await db.query(relationsQueries.insertRelation(constellationId, response[0].id));
+        }
+    } finally {
+        db.close();
+    }
+}
+
+async function readAllStars() {
     await db.connect();
     const result = await db.query(starsQueries.selectAllStars());
     db.close();
     return result;
 }
 
-async function selectStarById(id) {
+async function readStarById(id) {
     await db.connect();
-    const result = await db.query(starsQueries.selectStarById(id));
-    if (!result || result.length == 0)
-        throw new NotFoundInDbError('stars', id);
+    const response = await db.query(starsQueries.selectStarById(id));
+    if (!response || response.length == 0)
+        throw new NotFoundInDbError(starsQueries.table, id);
+    let result = response[0];
+    result.related = await db.query(relationsQueries.selectConstellationsByStarId(result.id));
     db.close();
     return result;
-}
-
-async function selectConstellationsByStarId(id) {
-    await db.connect();
-    const star = await db.query(starsQueries.selectStarById(id));
-    if (!star || star.length == 0)
-        throw new NotFoundInDbError('stars', id);
-    const result = await db.query(starsQueries.selectConstellationsByStarId(id));
-    db.close();
-    return result;
-}
-
-async function insertStar(dto) {
-    await db.connect();
-    await db.query(starsQueries.insertStar(dto));
-    db.close();
 }
 
 async function updateStarById(id, dto) {
@@ -55,10 +60,9 @@ async function deleteStarById(id) {
 }
 
 module.exports = {
-    selectAllStars,
-    selectStarById,
-    selectConstellationsByStarId,
-    insertStar,
+    createStar,
+    readAllStars,
+    readStarById,
     updateStarById,
     deleteStarById
 };

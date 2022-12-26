@@ -1,4 +1,4 @@
-const baseQueries = require('./baseQueries');
+const baseQueries = require('./mainBodyQueries');
 
 const table = 'constellations';
 
@@ -23,6 +23,7 @@ function deleteConstellationById(id) {
 }
 
 module.exports = {
+    table,
     selectAllConstellations,
     selectConstellationById,
     insertConstellation,

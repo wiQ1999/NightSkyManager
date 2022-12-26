@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post('/', validateBaseBody, async (req, res) => {
     try {
-        res.send(await starsService.insertStar(req.body));
+        res.send(await starsService.createStar(req.body));
     } catch (error) {
         res.status(500).send(error.field);
     }
@@ -16,7 +16,7 @@ router.post('/', validateBaseBody, async (req, res) => {
 
 router.get('/', async (req, res) => {
     try {
-        res.send(await starsService.selectAllStars());
+        res.send(await starsService.readAllStars());
     } catch (error) {
         res.status(500).send(error.field);
     }
@@ -24,18 +24,7 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', validateId, async (req, res) => {
     try {
-        res.send(await starsService.selectStarById(req.params.id));
-    } catch (error) {
-        if (error instanceof NotFoundInDbError)
-            res.status(404).send(error.field);
-        else
-            res.status(500).send(error.field);
-    }
-});
-
-router.get('/:id/constellations', validateId, async (req, res) => {
-    try {
-        res.send(await starsService.selectConstellationsByStarId(req.params.id));
+        res.send(await starsService.readStarById(req.params.id));
     } catch (error) {
         if (error instanceof NotFoundInDbError)
             res.status(404).send(error.field);
