@@ -25,9 +25,6 @@ function validateBaseBody(req, res, next) {
         return;
     }
 
-    res.status(400).send("TESTING");
-    return;
-
     next();
 }
 
