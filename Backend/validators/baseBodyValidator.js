@@ -1,55 +1,113 @@
 function validateBaseBody(req, res, next) {
     const body = req.body;
 
-    if (body.name == undefined) {
-        res.status(400).send('Missing "name" property in request body.');
+    const propExist = validatePropertiesExist(body, ['name', 'description', 'link', 'related'])
+    if (!propExist.isValid) {
+        res.status(400).send(propExist.message);
         return;
     }
 
-    console.log(body.description);
-    console.log(typeof body.description);
-
-    if (body.description == undefined) {
-        res.status(400).send('Missing "description" property in request body.');
+    const stringType = validateNotEmptyStringType(body, ['name']);
+    if (!stringType.isValid) {
+        res.status(400).send(stringType.message);
         return;
     }
 
-    if (body.link == undefined) {
-        res.status(400).send('Missing "link" property in request body.');
+    const stringOrNullType = validateStringOrNullType(body, ['description', 'link']);
+    if (!stringOrNullType.isValid) {
+        res.status(400).send(stringOrNullType.message);
         return;
     }
 
-    if (body.related == undefined) {
-        res.status(400).send('Missing "related" property in request body.');
+    const intArrayType = validateIntArrayType(body, ['related']);
+    if (!intArrayType.isValid) {
+        res.status(400).send(intArrayType.message);
         return;
     }
 
-    if (typeof body.name !== "string") {
-        res.status(400).send('Property "name" require string type value in request body.');
-        return;
-    }
-
-    if (typeof body.description !== "object" || typeof body.description !== "number") {
-        res.status(400).send('Property "description" require null or string type value in request body.');
-        return;
-    }
-
-    if (typeof body.link !== "object" || typeof body.link !== "number") {
-        res.status(400).send('Property "link" require null or string type value in request body.');
-        return;
-    }
-
-    if (!Array.isArray(body.related) || !body.related.every(Number.isInteger)) {
-        res.status(400).send('Missing "related" property as an integers array in request body.');
-        return;
-    }
-
-    if (!body.name) {
-        res.status(400).send('Value for property "name" is required.');
-        return;
-    }
+    res.status(400).send("TESTING");
+    return;
 
     next();
+}
+
+function validatePropertiesExist(body, propNames) {
+    let result = {
+        isValid: true,
+        message: ""
+    };
+
+    for (let i = 0; i < propNames.length; i++) {
+        const propName = propNames[i];
+
+        if (!body.hasOwnProperty(propName)) {
+            result.isValid = false;
+            result.message = `Missing "${propName}" property in request body.`;
+            return result;
+        }
+    }
+
+    return result;
+}
+
+function validateNotEmptyStringType(body, propNames) {
+    let result = {
+        isValid: true,
+        message: ""
+    };
+
+    for (let i = 0; i < propNames.length; i++) {
+        const propName = propNames[i];
+        const prop = body[propName];
+
+        if (typeof prop !== 'string' || prop === "") {
+            result.isValid = false;
+            result.message = `Property "${propName}" require not empty string type value in request body.`;
+            return result;
+        }
+    }
+
+    return result;
+}
+
+function validateStringOrNullType(body, propNames) {
+    let result = {
+        isValid: true,
+        message: ""
+    };
+
+    for (let i = 0; i < propNames.length; i++) {
+        const propName = propNames[i];
+        const prop = body[propName];
+
+        if (typeof prop !== 'string' && prop !== null) {
+            result.isValid = false;
+            result.message = `Property "${propName}" require string or null type value in request body.`;
+            return result;
+        }
+    }
+
+    return result;
+}
+
+function validateIntArrayType(body, propNames) {
+    let result = {
+        isValid: true,
+        message: ""
+    };
+
+    for (let i = 0; i < propNames.length; i++) {
+        const propName = propNames[i];
+        const prop = body[propName];
+
+        if (!Array.isArray(prop) || !prop.every(Number.isInteger)) {
+            result.isValid = false;
+            result.message = `Property "${propName}" require int array type values in request body.`;
+            return result;
+        }
+    }
+
+    return result;
 }
 
 module.exports = validateBaseBody;
