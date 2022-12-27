@@ -26,7 +26,7 @@ PUT http://localhost:3000/constellations/1
 
 DELETE http://localhost:3000/constellations/1
 
-### StarController
+### StarsController
 
 POST http://localhost:3000/stars
 {
