@@ -1,22 +1,24 @@
 <script>
-    import { onMount } from "svelte";
+    // import { onMount } from "svelte";
 
-    onMount(async () => {
-        await genericGetAll();
-    });
+    // onMount(async () => {
+    //     await genericGetAll();
+    // });
 
-    async function genericGetAll() {
-        let url = "http://localhost:3000/stars";
-        let fetchData = {
-            method: "GET",
-            headers: new Headers({
-                "content-type": "application/json",
-            }),
-        };
+    // async function genericGetAll() {
+    //     let url = "http://localhost:3000/stars";
+    //     let fetchData = {
+    //         method: "GET",
+    //         headers: new Headers({
+    //             "content-type": "application/json",
+    //         }),
+    //     };
 
-        const response = await fetch(url, fetchData);
-        const json = await response.clone().json();
+    //     const response = await fetch(url, fetchData);
+    //     const json = await response.clone().json();
 
-        console.log(json);
-    }
+    //     console.log(json);
+    // }
 </script>
+
+<h1>TEST</h1>
