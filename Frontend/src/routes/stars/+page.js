@@ -12,4 +12,3 @@ export async function load({ fetch }) {
 
     return { stars: json };
 }
-

@@ -16,11 +16,27 @@
     }
 </script>
 
-<h1>Stars</h1>
+<svelte:head>
+    <title>Stars</title>
+</svelte:head>
 
-<BaseModelList
-    bind:collection={data.stars}
-    on:listAdd={addHandler}
-    on:listDetail={detailHandler}
-    on:listDelete={deleteHandler}
-/>
+<section>
+    <h1>Stars</h1>
+
+    <BaseModelList
+        bind:collection={data.stars}
+        on:listAdd={addHandler}
+        on:listDetail={detailHandler}
+        on:listDelete={deleteHandler}
+    />
+</section>
+
+<style>
+    section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        flex: 0.6;
+    }
+</style>
