@@ -1,19 +1,32 @@
 <script>
+    import { onMount } from "svelte";
+
     export let row;
-    console.log(row);
     export let allRelated = [];
     export let linkVisible = false;
+
+    onMount(async () => {
+        const imgUrl = row?.link ?? "";
+        const formPhoto = document.getElementById("form-photo");
+
+        const imgElement = new Image();
+        imgElement.src = imgUrl;
+        imgElement.style.maxHeight = "400px";
+        imgElement.style.maxWidth = "400px";
+
+        imgElement.onload = function () {
+            formPhoto.appendChild(imgElement);
+        };
+
+        imgElement.onerror = function () {
+            formPhoto.innerHTML = "Missing image";
+        };
+    });
 </script>
 
 <form method="POST" class="form">
-    {#if linkVisible && row?.link === true}
-        <div class="form-column" id="form-photo">
-            <img
-                src={row?.link}
-                alt={row?.name ?? "image"}
-                title={row?.name ?? "title"}
-            />
-        </div>
+    {#if linkVisible && row?.link !== null && row?.link !== ""}
+        <div class="form-column" id="form-photo" />
     {/if}
     <div class="form-column" id="form-values">
         <label for="row-name">Nazwa:</label>
@@ -47,7 +60,7 @@
         <br />
         <br />
         <br />
-        <button type="submit">Create</button>
+        <button type="submit">Save</button>
     </div>
     <div class="form-column" id="form-related">
         Related constellations:
@@ -58,7 +71,8 @@
                         type="checkbox"
                         name="related"
                         value={related.id}
-                        checked={row?.related.includes(related.id) ?? false}
+                        checked={row?.related.filter((r) => r.id === related.id)
+                            .length > 0 ?? false}
                     />
                     {related.name}
                 </p>
@@ -74,9 +88,5 @@
 
     .form-column {
         margin: 1em;
-    }
-
-    #form-photo {
-        padding: 2em;
     }
 </style>
