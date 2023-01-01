@@ -2,20 +2,6 @@
     import { createEventDispatcher } from "svelte";
 
     export let collection = [];
-
-    let dispatch = createEventDispatcher();
-
-    function onAdd() {
-        dispatch("listAdd");
-    }
-
-    function onDetail(row) {
-        dispatch("listDetail", { row });
-    }
-
-    function onDelete(row) {
-        dispatch("listDelete", { row });
-    }
 </script>
 
 <table>
@@ -23,17 +9,25 @@
         <th>Name</th>
         <th />
         <th>
-            <button on:click={onAdd}>Dodaj</button>
+            <form method="POST" action="?/create">
+                <button type="submit">Dodaj</button>
+            </form>
         </th>
     </tr>
     {#each collection as row}
         <tr>
             <td>{row.name}</td>
             <td>
-                <button on:click={onDetail(row)}> Szczegóły </button>
+                <form method="POST" action="?/detail">
+                    <input type="hidden" name="id" value={row.id} hidden />
+                    <button type="submit">Szczegóły</button>
+                </form>
             </td>
             <td>
-                <button on:click={onDelete(row)}> Usuń </button>
+                <form method="POST" action="?/delete">
+                    <input type="hidden" name="id" value={row.id} hidden />
+                    <button type="submit">Usuń</button>
+                </form>
             </td>
         </tr>
     {/each}
@@ -42,3 +36,10 @@
 {#if collection.length == 0}
     Brak rekordów
 {/if}
+
+<style>
+    th,
+    td {
+        border-bottom: solid 1px;
+    }
+</style>
