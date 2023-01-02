@@ -1,9 +1,7 @@
-import { redirect } from "@sveltejs/kit"
-
 export async function load({ params }) {
     return {
-        star: getStar(params.slug),
-        constellations: getConstellations()
+        star: await getStar(params.slug),
+        constellations: await getConstellations()
     }
 }
 

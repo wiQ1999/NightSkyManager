@@ -6,6 +6,10 @@
     export let linkVisible = false;
 
     onMount(async () => {
+        if (linkVisible) showImage();
+    });
+
+    function showImage() {
         const imgUrl = row?.link ?? "";
         const formPhoto = document.getElementById("form-photo");
 
@@ -21,7 +25,11 @@
         imgElement.onerror = function () {
             formPhoto.innerHTML = "Missing image";
         };
-    });
+    }
+
+    function isRelationChecked(id) {
+        return row?.related.find((r) => r.id === id) !== undefined ?? false;
+    }
 </script>
 
 <form method="POST" class="form">
@@ -71,8 +79,7 @@
                         type="checkbox"
                         name="related"
                         value={related.id}
-                        checked={row?.related.filter((r) => r.id === related.id)
-                            .length > 0 ?? false}
+                        checked={isRelationChecked(related.id)}
                     />
                     {related.name}
                 </p>
