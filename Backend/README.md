@@ -1,6 +1,6 @@
 # NightSkyManager - backend
 
-Sample requests:
+## Sample requests:
 
 ### ConstellationsController
 
@@ -49,3 +49,7 @@ PUT http://localhost:3000/stars/1
 }
 
 DELETE http://localhost:3000/stars/1
+
+## Tests:
+
+command: npm test
