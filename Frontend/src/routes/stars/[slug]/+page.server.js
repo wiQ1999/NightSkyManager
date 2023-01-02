@@ -1,36 +1,10 @@
+import { getRequest, putRequest } from "$lib/tools/apiRequests";
+
 export async function load({ params }) {
     return {
-        star: await getStar(params.slug),
-        constellations: await getConstellations()
+        star: await (await getRequest(`stars/${params.slug}`)).json(),
+        constellations: await (await getRequest('constellations')).json()
     }
-}
-
-async function getStar(id) {
-    let url = `http://localhost:3000/stars/${id}`
-    let fetchData = {
-        method: "GET",
-        headers: new Headers({
-            "content-type": "application/json"
-        })
-    }
-
-    const response = await fetch(url, fetchData)
-
-    return await response.clone().json()
-}
-
-async function getConstellations() {
-    let url = "http://localhost:3000/constellations"
-    let fetchData = {
-        method: "GET",
-        headers: new Headers({
-            "content-type": "application/json"
-        })
-    }
-
-    const response = await fetch(url, fetchData)
-
-    return (await response.clone().json()) ?? []
 }
 
 export const actions = {
@@ -43,16 +17,7 @@ export const actions = {
             related: (await data.getAll('related')).map(value => parseInt(value))
         }
 
-        let url = `http://localhost:3000/stars/${params.slug}`
-        let fetchData = {
-            method: "PUT",
-            headers: new Headers({
-                "content-type": "application/json",
-            }),
-            body: JSON.stringify(row)
-        }
-
-        const response = await fetch(url, fetchData)
+        const response = await putRequest(`stars/${params.slug}`, row)
 
         return {
             isCreated: response.ok,

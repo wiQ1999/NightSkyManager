@@ -1,15 +1,8 @@
 import { redirect } from "@sveltejs/kit"
+import { getRequest, deleteRequest } from "$lib/tools/apiRequests";
 
-export async function load({ fetch }) {
-    let url = "http://localhost:3000/stars"
-    let fetchData = {
-        method: "GET",
-        headers: new Headers({
-            "content-type": "application/json",
-        }),
-    };
-
-    const response = await fetch(url, fetchData)
+export async function load() {
+    const response = await getRequest("stars")
     const json = await response.clone().json()
 
     return { stars: json }
@@ -29,15 +22,7 @@ export const actions = {
         const data = await request.formData()
         const id = data.get('id')
 
-        let url = `http://localhost:3000/stars/${id}`
-        let fetchData = {
-            method: "DELETE",
-            headers: new Headers({
-                "content-type": "application/json",
-            }),
-        };
-
-        await fetch(url, fetchData)
+        await deleteRequest(`stars/${id}`)
 
         return { isDeleted: true }
     }

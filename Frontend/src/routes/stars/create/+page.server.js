@@ -1,15 +1,8 @@
 import { redirect } from "@sveltejs/kit"
+import { getRequest, postRequest } from "$lib/tools/apiRequests";
 
-export async function load({ fetch }) {
-    let url = "http://localhost:3000/constellations"
-    let fetchData = {
-        method: "GET",
-        headers: new Headers({
-            "content-type": "application/json",
-        }),
-    }
-
-    const response = await fetch(url, fetchData)
+export async function load() {
+    const response = await getRequest('constellations')
     const json = await response.clone().json()
 
     return { constellations: json ?? [] }
@@ -25,16 +18,7 @@ export const actions = {
             related: (await data.getAll('related')).map(value => parseInt(value))
         }
 
-        let url = "http://localhost:3000/stars"
-        let fetchData = {
-            method: "POST",
-            headers: new Headers({
-                "content-type": "application/json",
-            }),
-            body: JSON.stringify(row)
-        }
-
-        const response = await fetch(url, fetchData)
+        const response = await postRequest('stars', row)
 
         if (response.ok) throw redirect(303, '/stars')
 
