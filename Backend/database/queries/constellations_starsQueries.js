@@ -1,7 +1,7 @@
-const table = 'constellations_stars';
+const table = 'constellations_stars'
 
 function selectConstellationIdsByStarId(id) {
-    return `SELECT [constellationId] AS [id] FROM [constellations_stars] WHERE [starId]=${id};`;
+    return `SELECT [constellationId] AS [id] FROM [constellations_stars] WHERE [starId]=${id};`
 }
 
 function selectConstellationsByStarId(id) {
@@ -11,7 +11,7 @@ function selectConstellationsByStarId(id) {
 }
 
 function selectStarIdsByConstellationId(id) {
-    return `SELECT [starId] AS [id] FROM [constellations_stars] WHERE [constellationId]=${id};`;
+    return `SELECT [starId] AS [id] FROM [constellations_stars] WHERE [constellationId]=${id};`
 }
 
 function selectStarsByConstellationId(id) {
@@ -22,12 +22,12 @@ function selectStarsByConstellationId(id) {
 
 function insertRelation(constellationId, starId) {
     return `INSERT INTO [dbo].[constellations_stars] ([constellationId] ,[starId])
-        VALUES (${constellationId}, ${starId})`;
+        VALUES (${constellationId}, ${starId});`
 }
 
 function deleteRelation(constellationId, starId) {
     return `DELETE FROM [${table}] 
-        WHERE [constellationId]=${constellationId} AND [starId]=${starId};`;
+        WHERE [constellationId]=${constellationId} AND [starId]=${starId};`
 }
 
 module.exports = {
@@ -38,4 +38,4 @@ module.exports = {
     selectStarsByConstellationId,
     insertRelation,
     deleteRelation
-};
+}

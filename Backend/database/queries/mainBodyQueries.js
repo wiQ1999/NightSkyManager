@@ -1,24 +1,24 @@
 function selectAll(table) {
-    return `SELECT * FROM [${table}];`;
+    return `SELECT * FROM [${table}];`
 }
 
 function selectById(table, id) {
-    return `SELECT * FROM [${table}] WHERE [Id]=${id};`;
+    return `SELECT * FROM [${table}] WHERE [id]=${id};`
 }
 
 function insert(table, dto) {
-    return `INSERT INTO [${table}] ([Name], [Description], [Link]) 
-        VALUES ('${dto.name}', '${dto.description}', '${dto.link}');`;
+    return `INSERT INTO [${table}] ([name], [description], [link]) 
+        VALUES ('${dto.name}', '${dto.description}', '${dto.link}');`
 }
 
 function updateById(table, id, dto) {
     return `UPDATE [${table}] 
-        SET [Name]='${dto.name}', [Description]='${dto.description}', [Link]='${dto.link}' 
-        WHERE [Id]=${id};`;
+        SET [name]='${dto.name}', [description]='${dto.description}', [link]='${dto.link}' 
+        WHERE [id]=${id};`
 }
 
 function deleteById(table, id) {
-    return `DELETE FROM [${table}] WHERE [Id]=${id};`;
+    return `DELETE FROM [${table}] WHERE [id]=${id};`
 }
 
 module.exports = {
@@ -27,4 +27,4 @@ module.exports = {
     insert,
     updateById,
     deleteById
-};
+}

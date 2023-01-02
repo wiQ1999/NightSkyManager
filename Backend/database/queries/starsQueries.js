@@ -1,25 +1,25 @@
-const baseQueries = require('./mainBodyQueries');
+const baseQueries = require('./mainBodyQueries')
 
-const table = 'stars';
+const table = 'stars'
 
 function selectAllStars() {
-    return baseQueries.selectAll(table);
+    return baseQueries.selectAll(table)
 }
 
 function selectStarById(id) {
-    return baseQueries.selectById(table, id);
+    return baseQueries.selectById(table, id)
 }
 
 function insertStar(dto) {
-    return baseQueries.insert(table, dto);
+    return baseQueries.insert(table, dto)
 }
 
 function updateStarById(id, dto) {
-    return baseQueries.updateById(table, id, dto);
+    return baseQueries.updateById(table, id, dto)
 }
 
 function deleteStarById(id) {
-    return baseQueries.deleteById(table, id);
+    return baseQueries.deleteById(table, id)
 }
 
 module.exports = {
@@ -29,4 +29,4 @@ module.exports = {
     insertStar,
     updateStarById,
     deleteStarById,
-};
+}
