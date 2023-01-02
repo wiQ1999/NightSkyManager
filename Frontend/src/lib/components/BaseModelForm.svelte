@@ -71,7 +71,7 @@
         <button type="submit">Save</button>
     </div>
     <div class="form-column" id="form-related">
-        Related constellations:
+        <label for="related">Related constellations:</label>
         {#each allRelated as related}
             <div>
                 <p>
@@ -95,5 +95,19 @@
 
     .form-column {
         margin: 1em;
+    }
+
+    label {
+        font-size: large;
+        font-weight: 600;
+    }
+
+    input[type="text"] {
+        width: 20em;
+    }
+
+    textarea {
+        width: 24em;
+        height: 15em;
     }
 </style>
