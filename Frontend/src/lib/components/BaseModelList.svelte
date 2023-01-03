@@ -6,7 +6,7 @@
 
 <table>
     <tr>
-        <th>Name</th>
+        <th class="longColumn">Name</th>
         <th />
         <th>
             <form method="POST" action="?/create">
@@ -16,7 +16,7 @@
     </tr>
     {#each collection as row}
         <tr>
-            <td>{row.name}</td>
+            <td class="longColumn">{row.name}</td>
             <td>
                 <form method="POST" action="?/detail">
                     <input type="hidden" name="id" value={row.id} hidden />
@@ -41,5 +41,9 @@
     th,
     td {
         border-bottom: solid 1px;
+    }
+
+    .longColumn {
+        width: 20em;
     }
 </style>
