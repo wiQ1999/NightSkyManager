@@ -71,7 +71,7 @@
         <button type="submit">Save</button>
     </div>
     <div class="form-column" id="form-related">
-        <label for="related">Related constellations:</label>
+        <label for="related">Related:</label>
         {#each allRelated as related}
             <div>
                 <p>
